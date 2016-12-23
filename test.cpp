@@ -8,7 +8,8 @@
 
 int main(int, char**) {
     mongocxx::instance inst{};
-    mongocxx::client conn{mongocxx::uri{}};
+    mongocxx::uri uri("mongodb://localhost:27017");
+    mongocxx::client conn{uri};
 
     bsoncxx::builder::stream::document document{};
 

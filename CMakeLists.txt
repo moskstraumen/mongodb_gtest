@@ -16,7 +16,7 @@ include_directories("${gtest_SOURCE_DIR}/include"
                         "${gmock_SOURCE_DIR}/include")
 link_directories("/usr/local/lib")
 
-add_executable(mongocxx_testing test.cpp)
+add_executable(mongocxx_testing main.cpp mongodbToy.cpp)
 target_compile_features(mongocxx_testing PRIVATE cxx_range_for)
 target_link_libraries(mongocxx_testing bsoncxx mongocxx)
 target_link_libraries(mongocxx_testing

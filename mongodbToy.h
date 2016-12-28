@@ -22,23 +22,13 @@ public:
 	//mongodbToy() {};
 	virtual ~mongodbToy() {};
 
-	virtual std::string init(const std::string addr)
-	{
+	virtual std::string init(const std::string addr);
 
+	void connection() ;
 
-		//	mongocxx::instance inst{};
-		//	this->m_URI = addr;
-		//    std::cout << "init called!!!" << std::endl;
-		//	return addr;
-		return std::string();
+	void createCollection() ;
 
-	}
-
-	void connection() {};
-
-	void createCollection() {};
-
-	void printOutCollection(mongocxx::collection coll) {};
+	void printOutCollection(mongocxx::collection coll);
 
 private:
 	std::string m_URI;

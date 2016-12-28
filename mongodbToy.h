@@ -12,23 +12,33 @@
 #include <string>
 #include <bsoncxx/builder/stream/document.hpp>
 #include <bsoncxx/json.hpp>
-
+//
 #include <mongocxx/client.hpp>
 #include <mongocxx/instance.hpp>
 
 class mongodbToy
 {
 public:
-	mongodbToy() {};
-	~mongodbToy() {};
+	//mongodbToy() {};
+	virtual ~mongodbToy() {};
 
-	void init(std::string addr);
+	virtual std::string init(const std::string addr)
+	{
 
-	void connection();
 
-	void createCollection();
+		//	mongocxx::instance inst{};
+		//	this->m_URI = addr;
+		//    std::cout << "init called!!!" << std::endl;
+		//	return addr;
+		return std::string();
 
-	void printOutCollection(mongocxx::collection coll);
+	}
+
+	void connection() {};
+
+	void createCollection() {};
+
+	void printOutCollection(mongocxx::collection coll) {};
 
 private:
 	std::string m_URI;
@@ -37,6 +47,5 @@ private:
 
 	mongocxx::collection m_Collection;
 };
-
 
 #endif /* MONGODBTOY_H_ */

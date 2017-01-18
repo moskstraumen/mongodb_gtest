@@ -12,30 +12,36 @@ download_project(PROJ                googletest
 add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
-include_directories("/usr/local/include/bsoncxx/v_noabi")
-include_directories("/usr/local/include/mongocxx/v_noabi")
+include_directories("/home/jiahui/Software/install/include/bsoncxx/v_noabi")
+include_directories("/home/jiahui/Software/install/include/mongocxx/v_noabi")
 include_directories("${gtest_SOURCE_DIR}/include"
                         "${gmock_SOURCE_DIR}/include")
-link_directories("/usr/local/lib")
+include_directories("/home/jiahui/work/Simmune/mongocxx/analyzerLib") # Simmune analyzer
+include_directories("/home/jiahui/work/Simmune_build2/SimmuneRelease/analyzerLib")
+include_directories("/home/jiahui/work/Simmune/mongocxx/simShare") # Simmune analyzer
+
+link_directories("/home/jiahui/Software/install/lib") # library of mongo c driver / c++ driver
+link_directories("/home/jiahui/work/Simmune_build2/SimmuneRelease/analyzerLib")  # library of analyzer
+#link_directories("/home/jiahui/work/Simmune_build2/SimmuneRelease/simShare")  # library of analyzer
 
 enable_testing()
 
 if(use_built_libs)
-include_directories("/home/wangj37/work/include")
-link_directories("/home/wangj37/work/lib")
+#include_directories("/home/jiahui/work/include")
+#link_directories("/home/jiahui/work/lib")
 
-add_executable(test_module mongocxx_testing_test.cpp)
+    add_executable(test_module mongocxx_testing_test.cpp)
 
-#target_compile_features(test_module PRIVATE cxx_range_for)
+    #target_compile_features(test_module PRIVATE cxx_range_for)
 
-target_link_libraries(test_module bsoncxx mongocxx dbClient mongodbToy)
+    target_link_libraries(test_module bsoncxx mongocxx dbClient mongodbToy analyzerLib)
         
 else(use_built_libs)
-add_executable(test_module mongocxx_testing_test.cpp dbClient.cpp mongodbToy.cpp)
+    add_executable(test_module mongocxx_testing_test.cpp dbClient.cpp mongodbToy.cpp)
 
-#target_compile_features(test_module PRIVATE cxx_range_for)
+    #target_compile_features(test_module PRIVATE cxx_range_for)
 
-target_link_libraries(test_module bsoncxx mongocxx)
+    target_link_libraries(test_module bsoncxx mongocxx)
 
 endif(use_built_libs)
 
@@ -49,7 +55,6 @@ target_link_libraries(test_module
 target_link_libraries(test_module
         gtest
         gtest_main)
-
 add_test(testing test_module)
 
 
@@ -58,25 +63,25 @@ set_target_properties(test_module
       COMPILE_DEFINITIONS "GTEST_LINKED_AS_SHARED_LIBRARY=1")
       
 if(build_func_libs) 
-	add_library(mongodbToy SHARED mongodbToy.cpp)
-	target_compile_features(mongodbToy PRIVATE cxx_range_for)
-	target_link_libraries(mongodbToy bsoncxx mongocxx)
-
-	add_library(dbClient SHARED dbClient.cpp mongodbToy.cpp)
-	target_compile_features(dbClient PRIVATE cxx_range_for)
-	target_link_libraries(dbClient bsoncxx mongocxx)
-
-	include(GenerateExportHeader)
-	GENERATE_EXPORT_HEADER(mongodbToy
-	BASE_NAME mongodbToy
-	EXPORT_FILE_NAME mongodbToy.h)
-	GENERATE_EXPORT_HEADER(dbClient
-	BASE_NAME dbClient
-	EXPORT_FILE_NAME dbClient.h)
-
-	set(CMAKE_INSTALL_PREFIX /home/wangj37/work)
-	install(TARGETS dbClient LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
-	install(TARGETS mongodbToy LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
-	install(FILES "${PROJECT_BINARY_DIR}/mongodbToy.h" DESTINATION include)
-	install(FILES "${PROJECT_BINARY_DIR}/dbClient.h" DESTINATION include) 
+      add_library(mongodbToy SHARED mongodbToy.cpp)
+      target_compile_features(mongodbToy PRIVATE cxx_range_for)
+      target_link_libraries(mongodbToy bsoncxx mongocxx)
+      
+      add_library(dbClient SHARED dbClient.cpp mongodbToy.cpp)
+      target_compile_features(dbClient PRIVATE cxx_range_for)
+      target_link_libraries(dbClient bsoncxx mongocxx)
+      
+      include(GenerateExportHeader)
+      GENERATE_EXPORT_HEADER(mongodbToy
+      BASE_NAME mongodbToy
+      EXPORT_FILE_NAME mongodbToy.h)
+      GENERATE_EXPORT_HEADER(dbClient
+      BASE_NAME dbClient
+      EXPORT_FILE_NAME dbClient.h)
+      
+      set(CMAKE_INSTALL_PREFIX /home/jiahui/work)
+      install(TARGETS dbClient LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+      install(TARGETS mongodbToy LIBRARY DESTINATION lib ARCHIVE DESTINATION lib)
+      install(FILES "${PROJECT_BINARY_DIR}/mongodbToy.h" DESTINATION include)
+      install(FILES "${PROJECT_BINARY_DIR}/dbClient.h" DESTINATION include) 
 endif(build_func_libs)  

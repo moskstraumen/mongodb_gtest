@@ -3,30 +3,24 @@
 #include <gtest/gtest.h>
 #include "mongodbToy.h"
 #include "dbClient.h"
-//#include "SimulationRun.h"
-//#include "Mongo/MongoInterface.h"
 
 using ::testing::Return;
 
 class MongoDbMock : public mongodbToy
 {
 public:
-	MongoDbMock(){};
-	MongoDbMock(int a) : mongodbToy(a){};
-    MOCK_METHOD1(init, std::string(const std::string));
+    MOCK_METHOD1(init, std::string(const std::string addr));
 };
 
 class MongoDbTesting : public testing::Test
 {
 public:
-	MongoDbMock m_mock;
+	MongoDbMock mock;
 	dbClient *client;
 
 	void SetUp()
 	{
-		client = new dbClient(&m_mock);
-
-//		m_mock = new MongoDbMock();
+		client = new dbClient(&mock);
 	}
 	void TearDown()
 	{
@@ -38,25 +32,18 @@ public:
 TEST_F(MongoDbTesting, UnitTest01)
 {
     char *addr = "mongodb://localhost:27017/myproject";
-    MongoDbMock *mock = new MongoDbMock(1);
-
-    //MOngoDbMock mocker(1);
-
- //   dbClient client(mock);
-
-    mock->init(addr);
-//    EXPECT_CALL(*mock, init(::testing::_))
-//        .WillOnce(Return(std::string(addr)));
-//    std::string uri = client.createDatabase(std::string(addr));
-//    EXPECT_STREQ(addr, uri.c_str());
-
-    delete mock;
+  //  MongoDbMock mock;
+  //  dbClient client(&mock);
+    EXPECT_CALL(mock, init(::testing::_))
+        .WillOnce(Return(std::string(addr)));
+    std::string uri = client->createDatabase(std::string(addr));
+    EXPECT_STREQ(addr, uri.c_str());
 }
 
 TEST_F(MongoDbTesting, UnitTest02)
 {
 	std::string addr = "mongodb://localhost:27017/myproject";
-	MongoDbMock m;// = new MongoDbMock();
+	mongodbToy m;
 	EXPECT_NO_THROW(m.init("mongodb://localhost:27017/myproject"));
 }
 

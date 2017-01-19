@@ -19,8 +19,7 @@
 class mongodbToy
 {
 public:
-	mongodbToy(int a) {std::cout << "this is : " << a << std::endl;};
-	mongodbToy() {};
+	//mongodbToy() {};
 	virtual ~mongodbToy() {};
 
 	virtual std::string init(const std::string addr);

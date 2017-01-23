@@ -17,6 +17,11 @@ unzip googletest-master.zip
 <img src="Shared_Libs.png" width = "800"/>
 <figcaption> Fig. 2 Build google test as shared or static library</figcaption>
 </figure>
+Click "Configure" and "Generate". 
+
+And then run
+make
+make install
 
 * Specify the installation path using CMAKE_INSTALL_PREFIX (Fig. 3)
 <figure>
@@ -29,7 +34,6 @@ unzip googletest-master.zip
 
 ``` cpp
 #include <string>
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include "Mongo/MongoInterface.h"
 
@@ -96,17 +100,17 @@ int main(int argc, char *argv[])
 
 ``` cmake
 
-INCLUDE_DIRECTORIES("/home/jiahui/work/mongodb_gtest_bin/googletest-src/googletest/include"
-                        "/home/jiahui/work/mongodb_gtest_bin/googletest-src/googlemock/include")     # include the "include" path of GTest                   
+INCLUDE_DIRECTORIES("/home/jiahui/work/mongodb_gtest_bin/googletest-src/googletest/include")     # include the "include" path of GTest                   
                         
 LINK_DIRECTORIES("/home/jiahui/work/mongodb_gtest_bin/googletest-build/googlemock/gtest") # add the directoreis to the GTest libraries
-LINK_DIRECTORIES("/home/jiahui/work/mongodb_gtest_bin/googletest-build/googlemock")
-
 
 ADD_EXECUTABLE(AnalyzerLib_Unit_Testing AnalyzerLib_Unit_Testing.cpp)
 TARGET_LINK_LIBRARIES(AnalyzerLib_Unit_Testing  ${Boost_LIBRARIES} vtkCommonCore vtkFiltersCore vtkInfovisCore mongocxx bsoncxx mongoc-1.0 bson-1.0 SimShare SimDb smun DensityEstimation)
 
 TARGET_LINK_LIBRARIES(AnalyzerLib_Unit_Testing pthread)
-TARGET_LINK_LIBRARIES(AnalyzerLib_Unit_Testing gmock gmock_main)
 TARGET_LINK_LIBRARIES(AnalyzerLib_Unit_Testing gtest gtest_main)
 ```
+
+## Run test
+An executable file (e.g., AnalyzerLib_Unit_Testing) will be created after build the unit (project).
+Run the executabnle file to implement the test. 

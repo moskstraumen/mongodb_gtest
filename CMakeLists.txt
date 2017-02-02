@@ -1,27 +1,41 @@
 project(mongocxx_testing)
 cmake_minimum_required(VERSION 2.8.2)
 
-option(build_func_libs "Build the functions for testing as libraries." OFF)
+if (CMAKE_VERSION VERSION_LESS 3.2)
+    set(UPDATE_DISCONNECTED_IF_AVAILABLE "")
+else()
+    set(UPDATE_DISCONNECTED_IF_AVAILABLE "UPDATE_DISCONNECTED 1")
+endif()
+
+option(build_func_libs "Build the functions for testing as libraries." ON)
 option(use_built_libs "Build the functions for testing as libraries." ON)
+
+
+
+include(BuildMongoDriver.cmake)
 
 include(DownloadProject.cmake)
 download_project(PROJ                googletest
                  GIT_REPOSITORY      https://github.com/google/googletest.git
                  GIT_TAG             master
                  ${UPDATE_DISCONNECTED_IF_AVAILABLE})
+message("google source dir : ${googletest_SOURCE_DIR}")
+message("google binary dir : ${googletest_BINARY_DIR}")
+
 add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
-include_directories("/home/jiahui/Software/install/include/bsoncxx/v_noabi")
-include_directories("/home/jiahui/Software/install/include/mongocxx/v_noabi")
+include_directories("/home/jiahui/work/Simmune/mongo_gtest_build/ExternalProjects/Install/mongo-cxx-driver/include/bsoncxx/v_noabi")
+include_directories("/home/jiahui/work/Simmune/mongo_gtest_build/ExternalProjects/Install/mongo-cxx-driver/include/mongocxx/v_noabi")
+include_directories("/home/jiahui/work/Simmune/mongo_gtest_build/ExternalProjects/Source/Boost")
 include_directories("${gtest_SOURCE_DIR}/include"
                         "${gmock_SOURCE_DIR}/include")
-include_directories("/home/jiahui/work/Simmune/mongocxx/analyzerLib") # Simmune analyzer
-include_directories("/home/jiahui/work/Simmune_build2/SimmuneRelease/analyzerLib")
-include_directories("/home/jiahui/work/Simmune/mongocxx/simShare") # Simmune analyzer
+#include_directories("/home/jiahui/work/Simmune/mongocxx/analyzerLib") # Simmune analyzer
+include_directories("/home/jiahui/work/Simmune/mongo_gtest_build/SimmuneRelease/analyzerLib")
+#include_directories("/home/jiahui/work/Simmune/mongocxx/simShare") # Simmune analyzer
 
-link_directories("/home/jiahui/Software/install/lib") # library of mongo c driver / c++ driver
-link_directories("/home/jiahui/work/Simmune_build2/SimmuneRelease/analyzerLib")  # library of analyzer
+link_directories("/home/jiahui/work/Simmune/mongo_gtest_build/ExternalProjects/Install/mongo-cxx-driver/lib") # library of mongo c driver / c++ driver
+link_directories("/home/jiahui/work/Simmune/mongo_gtest_build/SimmuneRelease/analyzerLib")  # library of analyzer
 #link_directories("/home/jiahui/work/Simmune_build2/SimmuneRelease/simShare")  # library of analyzer
 
 enable_testing()

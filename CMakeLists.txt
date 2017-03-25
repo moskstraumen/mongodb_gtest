@@ -31,11 +31,11 @@ include_directories("/home/jiahui/work/Simmune/mongo_gtest_build/ExternalProject
 include_directories("${gtest_SOURCE_DIR}/include"
                         "${gmock_SOURCE_DIR}/include")
 #include_directories("/home/jiahui/work/Simmune/mongocxx/analyzerLib") # Simmune analyzer
-include_directories("/home/jiahui/work/Simmune/mongo_gtest_build/SimmuneRelease/analyzerLib")
+#include_directories("/home/jiahui/work/Simmune_build2/SimmuneRelease/analyzerLib")
 #include_directories("/home/jiahui/work/Simmune/mongocxx/simShare") # Simmune analyzer
 
-link_directories("/home/jiahui/work/Simmune/mongo_gtest_build/ExternalProjects/Install/mongo-cxx-driver/lib") # library of mongo c driver / c++ driver
-link_directories("/home/jiahui/work/Simmune/mongo_gtest_build/SimmuneRelease/analyzerLib")  # library of analyzer
+#link_directories("/home/jiahui/Software/install/lib") # library of mongo c driver / c++ driver
+#link_directories("/home/jiahui/work/Simmune_build2/SimmuneRelease/analyzerLib")  # library of analyzer
 #link_directories("/home/jiahui/work/Simmune_build2/SimmuneRelease/simShare")  # library of analyzer
 
 enable_testing()
@@ -48,7 +48,7 @@ if(use_built_libs)
 
     #target_compile_features(test_module PRIVATE cxx_range_for)
 
-    target_link_libraries(test_module bsoncxx mongocxx dbClient mongodbToy analyzerLib)
+    target_link_libraries(test_module bsoncxx mongocxx dbClient mongodbToy)
         
 else(use_built_libs)
     add_executable(test_module mongocxx_testing_test.cpp dbClient.cpp mongodbToy.cpp)

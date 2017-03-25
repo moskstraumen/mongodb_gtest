@@ -15,9 +15,9 @@ set(BOOST_BUILD_COMMAND ./b2 -sNO_BZIP2=1 -sNO_ZLIB=1 --with-graph --with-serial
 # Boost
 ###########################################################
 ExternalProject_Add(Boost
-#        GIT_REPOSITORY "https://github.com/boostorg/boost.git"
-#        GIT_TAB "master"
-  URL "http://localhost:10080/resources/Boost/boost_1_60_0.tar.gz"
+        GIT_REPOSITORY "https://github.com/boostorg/boost.git"
+        GIT_TAB "master"
+ # URL "http://localhost:10080/resources/Boost/boost_1_60_0.tar.gz"
           UPDATE_COMMAND ""
    CONFIGURE_COMMAND ""
   BUILD_COMMAND ${BOOST_BUILD_COMMAND}
